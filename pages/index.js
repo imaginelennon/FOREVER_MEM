@@ -7,7 +7,8 @@ export default function Home() {
   const [characterInput, setCharacterInput] = useState("");
   const [questionInput, setQuestionInput] = useState("");
   const [result, setResult] = useState();
-  //const [audio, setAudio] = useState();
+  // added audio constant here
+  const [audio, setAudio] = useState();
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -35,9 +36,25 @@ export default function Home() {
       console.error(error);
       alert(error.message);
     }
-  
-  
-    
+    //fetching audio from voice.js
+    try{
+      const response = await fetch("/api/voice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({"audio":result}),
+        
+      });
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw data.error || new Error(`Request failed with status ${response.status}`);
+      }
+      setAudio(data.audio);
+
+    }catch(error){console.log(error);
+
+    }
   }
 
 
