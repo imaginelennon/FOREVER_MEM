@@ -1,4 +1,5 @@
-async function generateAudio({audio}){
+export default async function generateAudio({audio}){
+  
   try{
     const finalAudio= await fetch("https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM", { 
       method: "POST",
